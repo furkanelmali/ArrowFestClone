@@ -68,10 +68,11 @@ public class GamePlay : MonoBehaviour
 
 
         int.TryParse(CloneBox.text, out cloneBoxİnt);
+        
         if (triggerControl)
         {
             Calculations();
-            
+
             if (Tags.Equals("Sum") || Tags.Equals("Multiplie"))
             {
                 CreateArrows(CloneNumber);
@@ -84,7 +85,7 @@ public class GamePlay : MonoBehaviour
                 destroyControl = false;
                 
             }
-           triggerControl= false;
+            triggerControl = false;
         }
         else
         {
@@ -126,6 +127,11 @@ public class GamePlay : MonoBehaviour
 
         }
 
+        if(currentArrow < 0)
+        {
+            currentArrow = 0;
+        }
+
         
 
 
@@ -138,7 +144,7 @@ public class GamePlay : MonoBehaviour
         Debug.Log(Arrows);
         if (triggerControl)
         {
-            for (int i = 1; i < Arrows; i++)
+            for (int i = 0; i < Arrows; i++)
 
             {
                 
@@ -146,7 +152,7 @@ public class GamePlay : MonoBehaviour
 
                 //float clone = i * 0.1f;
 
-                float yaricap = 0.1f;
+                float yaricap = 0.5f;
 
                 float theta = i * 2 * Mathf.PI / Arrows;
 

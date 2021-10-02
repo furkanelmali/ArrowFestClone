@@ -50,7 +50,6 @@ public class Movement : MonoBehaviour
             }
             
             
-            
 
         }
 
@@ -81,11 +80,11 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Dead000");
+        
         if (GamePlay.currentArrow <= 0)
         {
             
-            Debug.Log("Dead");
+            
             levelSystem.ArrowNumControl(0);
         }
     }

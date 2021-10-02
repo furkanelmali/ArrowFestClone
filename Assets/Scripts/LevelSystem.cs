@@ -36,7 +36,7 @@ public class LevelSystem : MonoBehaviour
 
     public void ArrowNumControl(int num)
     {
-        Debug.Log("Dead");
+        
         switch (num)
         {
             
@@ -63,6 +63,8 @@ public class LevelSystem : MonoBehaviour
                     movement.touchlock = true;
                     movement.touchcontrol = false;
 
+                    
+
                 }
                
                 break;
@@ -83,13 +85,16 @@ public class LevelSystem : MonoBehaviour
             movement.touchlock = false;
             levelControl = false;
 
-            if(gameplay.currentArrow < gameplay.startingArrowNum)
+            if (gameplay.currentArrow < gameplay.startingArrowNum)
             {
-                gameplay.CloneNumber = gameplay.startingArrowNum - gameplay.currentArrow;
+                gameplay.currentArrow = gameplay.startingArrowNum;
+                gameplay.CloneNumber = gameplay.currentArrow - 1;
+
                 gameplay.triggerControl = true;
-               gameplay.CreateArrows(gameplay.CloneNumber);
+                gameplay.CreateArrows(gameplay.CloneNumber);
                 gameplay.triggerControl = false;
             }
+
         }
         else
         {
@@ -100,7 +105,9 @@ public class LevelSystem : MonoBehaviour
 
             if (gameplay.currentArrow < gameplay.startingArrowNum)
             {
-                gameplay.CloneNumber = gameplay.startingArrowNum - gameplay.currentArrow;
+                gameplay.currentArrow = gameplay.startingArrowNum;
+                gameplay.CloneNumber = gameplay.currentArrow - 1;
+               
                 gameplay.triggerControl = true;
                 gameplay.CreateArrows(gameplay.CloneNumber);
                 gameplay.triggerControl = false;
@@ -109,5 +116,18 @@ public class LevelSystem : MonoBehaviour
         }
         
 
+    }
+
+    public void levelup()
+    {
+        
+        
+        if (true)
+        {
+            Levels[3].SetActive(false);
+            
+            Levels[4].SetActive(true);
+
+        }
     }
 }

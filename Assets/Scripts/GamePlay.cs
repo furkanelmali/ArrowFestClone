@@ -26,7 +26,9 @@ public class GamePlay : MonoBehaviour
     public int Gold;
     public Text GoldText;
 
-    public bool triggerControl, checkforDead;
+    public bool triggerControl, destroyControl;
+
+    public int CloneTag = 1;
        
   
     // Start is called before the first frame update
@@ -34,8 +36,9 @@ public class GamePlay : MonoBehaviour
     {
 
         
-
         SaveSystem();
+
+        currentArrow = startingArrowNum;
 
         if (startingArrowNum > 1)
         {
@@ -49,10 +52,9 @@ public class GamePlay : MonoBehaviour
 
         IncomeLevelint = 1;
             
-        startingArrowNum = 1;
-        currentArrow = 1;
-       
+        
 
+        
 
 
 
@@ -64,10 +66,12 @@ public class GamePlay : MonoBehaviour
 
         
 
+
         int.TryParse(CloneBox.text, out cloneBoxİnt);
         if (triggerControl)
         {
             Calculations();
+            
             if (Tags.Equals("Sum") || Tags.Equals("Multiplie"))
             {
                 CreateArrows(CloneNumber);
@@ -75,9 +79,12 @@ public class GamePlay : MonoBehaviour
 
             else if (Tags.Equals("Divide") || Tags.Equals("Extract"))
             {
+                destroyControl = true;
                 DestroyingArrows(DestroyNumber);
+                destroyControl = false;
+                
             }
-
+           triggerControl= false;
         }
         else
         {
@@ -100,12 +107,15 @@ public class GamePlay : MonoBehaviour
 
             case "Multiplie":
                 CloneNumber = cloneBoxİnt * currentArrow - currentArrow;
+                Debug.Log("cloneboxİnt"+cloneBoxİnt);
+                Debug.Log("currentArrow" + currentArrow);
                 currentArrow = CloneNumber + currentArrow;
                 break;
 
             case "Extract":
                 DestroyNumber = cloneBoxİnt;
                 currentArrow = currentArrow - cloneBoxİnt;
+                
                 break;
 
             case "Divide":
@@ -117,15 +127,18 @@ public class GamePlay : MonoBehaviour
         }
 
         
-     
+
+
+
     } //Calculations For Cloning-Destroying
 
 
     public void CreateArrows(int Arrows) 
     {
+        Debug.Log(Arrows);
         if (triggerControl)
         {
-            for (int i = 0; i < Arrows; i++)
+            for (int i = 1; i < Arrows; i++)
 
             {
                 
@@ -149,10 +162,11 @@ public class GamePlay : MonoBehaviour
                 GameObject ArrowClone = Instantiate(Arrow, new Vector3(spawnPos.x, spawnPos.y,Arrow.transform.position.z), Arrow.transform.rotation);
                 ArrowClone.transform.parent = ArrowBox.transform;
                 ArrowClone.name = "ArrowClone" + i;
-                ArrowClone.gameObject.tag = "ArrowClone";
+                ArrowClone.gameObject.tag = "ArrowClone" ;
+                
 
 
-                triggerControl = false;
+                
             }
 
         }
@@ -162,14 +176,25 @@ public class GamePlay : MonoBehaviour
 
     public void DestroyingArrows(int Destroynum)
     {
-        if (triggerControl == true) 
+        
+
+        if (destroyControl) 
         {
-            for (int d = 0; d < Destroynum; d++)
+            int sides = 1;
+
+
+            for (int i = ArrowBox.transform.childCount - 1; i >= 1; i--) 
             {
-                Destroy(GameObject.FindWithTag("ArrowClone"));
+                
+                Destroy(ArrowBox.transform.GetChild(i).gameObject);
+                if (sides == Destroynum)
+                {
+                    break;
+                }
+                sides++;
             }
 
-            triggerControl = false;
+           
         }
         
         
@@ -198,6 +223,7 @@ public class GamePlay : MonoBehaviour
             PlayerPrefs.SetInt("GoldSave", Gold);
             PlayerPrefs.SetString("GoldText", GoldText.text);
             PlayerPrefs.SetInt("StartingArrowNum", startingArrowNum);
+            
 
 
             PlayerPrefs.SetInt("Arrowlevelİnt", ArrowLevelint);
@@ -240,6 +266,7 @@ public class GamePlay : MonoBehaviour
         IncomePrizeint = PlayerPrefs.GetInt("İncomePrizeint");
         IncomePrize.text = PlayerPrefs.GetString("İncomePrize");
         IncomeLevel.text = PlayerPrefs.GetString("İncomeLevel");
+        
 
     }
 

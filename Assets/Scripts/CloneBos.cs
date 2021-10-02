@@ -27,7 +27,7 @@ public class CloneBos : MonoBehaviour
     {
         if (other.gameObject.tag == "Arrow")
         {
-
+            
             GamePlay.CloneBox = Number;
             GamePlay.Tags = this.gameObject.tag;
 

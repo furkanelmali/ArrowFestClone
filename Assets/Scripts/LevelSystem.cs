@@ -82,6 +82,14 @@ public class LevelSystem : MonoBehaviour
             Character.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y, spawnPos.transform.position.z);
             movement.touchlock = false;
             levelControl = false;
+
+            if(gameplay.currentArrow < gameplay.startingArrowNum)
+            {
+                gameplay.CloneNumber = gameplay.startingArrowNum - gameplay.currentArrow;
+                gameplay.triggerControl = true;
+               gameplay.CreateArrows(gameplay.CloneNumber);
+                gameplay.triggerControl = false;
+            }
         }
         else
         {
@@ -89,8 +97,14 @@ public class LevelSystem : MonoBehaviour
             movement.touchlock = false;
             FailedScene.SetActive(false);
             MainMenu.SetActive(true);
-            
 
+            if (gameplay.currentArrow < gameplay.startingArrowNum)
+            {
+                gameplay.CloneNumber = gameplay.startingArrowNum - gameplay.currentArrow;
+                gameplay.triggerControl = true;
+                gameplay.CreateArrows(gameplay.CloneNumber);
+                gameplay.triggerControl = false;
+            }
 
         }
         

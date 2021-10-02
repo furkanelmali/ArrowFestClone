@@ -32,6 +32,7 @@ public class CloneBos : MonoBehaviour
             GamePlay.Tags = this.gameObject.tag;
 
             GamePlay.triggerControl = true;
+            
 
         }
     }

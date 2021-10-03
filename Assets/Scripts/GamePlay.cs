@@ -34,15 +34,16 @@ public class GamePlay : MonoBehaviour
     [SerializeField] float arrowRadius = 0.3f;
     [SerializeField] float startingCircleRadius= 0.3f;
     [SerializeField] float globalRadiusCurrent = 0;
+
+    [SerializeField] int currentCircleAmount = 0;
+    [SerializeField] int FullyAmount = 0;
     public  int circleCount= 1;
 
 
 
     // Start is called before the first frame update
     void Start()
-    {
-
-        
+    { 
         SaveSystem();
 
         currentArrow = startingArrowNum;
@@ -55,24 +56,13 @@ public class GamePlay : MonoBehaviour
             triggerControl = false;
         }
 
-
-
         IncomeLevelint = 1;
-            
-        
-
-        
-
-
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
-
 
         int.TryParse(CloneBox.text, out cloneBoxİnt);
         
@@ -94,13 +84,7 @@ public class GamePlay : MonoBehaviour
             }
             triggerControl = false;
         }
-        else
-        {
-
-        }
-
-  
-        
+ 
     }
 
     public void Calculations()
@@ -127,10 +111,9 @@ public class GamePlay : MonoBehaviour
                 break;
 
             case "Divide":
-                DestroyNumber = currentArrow / cloneBoxİnt;
+                DestroyNumber = currentArrow- (currentArrow / cloneBoxİnt) ;
                 currentArrow = currentArrow - DestroyNumber;
                 break;
-
 
         }
 
@@ -138,10 +121,6 @@ public class GamePlay : MonoBehaviour
         {
             currentArrow = 0;
         }
-
-        
-
-
 
     } //Calculations For Cloning-Destroying
 
@@ -151,7 +130,6 @@ public class GamePlay : MonoBehaviour
         int remaningArrow = Arrows;
         float currentRadius = globalRadiusCurrent == 0 ? startingCircleRadius : globalRadiusCurrent;
         
-
         while (remaningArrow > 0) 
         {
             float circumference = CircumferenceOfCircle(currentRadius);
@@ -161,7 +139,7 @@ public class GamePlay : MonoBehaviour
             {
                 int realAmount = remaningArrow < amount ? remaningArrow : amount ;
                 
-                    for (int i = 0; i < realAmount; i++)
+                    for (int i = FullyAmount; i < realAmount; i++)
                     {
                         float theta = i * spacing;
 
@@ -181,35 +159,38 @@ public class GamePlay : MonoBehaviour
 
                        
                     }
-
+                
                 remaningArrow -= amount;
                 circleCount++;
-                currentRadius = remaningArrow < amount ? currentRadius : currentRadius+startingCircleRadius;
+                currentCircleAmount = amount;
+                if (!(remaningArrow < amount))
+                {
+                    currentRadius = currentRadius + startingCircleRadius;
+                    FullyAmount = 0;
+                }
+                else
+                {
+                    FullyAmount = remaningArrow - 1;
+                }
+
 
                 Debug.Log(currentRadius);
 
             }
 
-            
         }
 
         globalRadiusCurrent = currentRadius;  
-
-    
     } //Creating Arrows
 
     public void DestroyingArrows(int Destroynum)
     {
-        
-
         if (destroyControl) 
         {
             int sides = 1;
 
-
             for (int i = ArrowBox.transform.childCount - 1; i >= 1; i--) 
-            {
-                
+            { 
                 Destroy(ArrowBox.transform.GetChild(i).gameObject);
                 if (sides == Destroynum)
                 {
@@ -218,9 +199,29 @@ public class GamePlay : MonoBehaviour
                 sides++;
             }
 
-           
+            int arrowChild = currentArrow;
+            float currentRdn = startingCircleRadius;
+            while (arrowChild > 0)
+            {
+                float circumference = CircumferenceOfCircle(currentRdn);
+                int amount = CalculateArrowCountForCircumference(circumference);
+                
+                arrowChild -= amount;
+                if (!(arrowChild < amount))
+                {
+                    currentRdn = currentRdn + startingCircleRadius;
+                    FullyAmount = 0;
+                }
+                else
+                {
+                    FullyAmount = arrowChild - 1;
+                }
+            }
+            
+
+            globalRadiusCurrent = currentRdn;
+            
         }
-        
         
     }//Destroying Arrows
 
@@ -228,7 +229,6 @@ public class GamePlay : MonoBehaviour
     {
         if (Gold >= ArrowPrizeint)
         {
-
             Gold = Gold - ArrowPrizeint;
             GoldText.text = Gold.ToString();
 
@@ -237,8 +237,7 @@ public class GamePlay : MonoBehaviour
             ArrowLevel.text = "Level " + ArrowLevelint.ToString();
             ArrowPrizeint = ArrowPrizeint * ArrowLevelint;
             ArrowPrize.text = ArrowPrizeint.ToString();
-            
-            
+              
             CloneNumber = 1;
             triggerControl = true;
             CreateArrows(CloneNumber);
@@ -248,8 +247,6 @@ public class GamePlay : MonoBehaviour
             PlayerPrefs.SetString("GoldText", GoldText.text);
             PlayerPrefs.SetInt("StartingArrowNum", startingArrowNum);
             
-
-
             PlayerPrefs.SetInt("Arrowlevelİnt", ArrowLevelint);
             PlayerPrefs.SetString("Arrowlevel", ArrowLevel.text);
             PlayerPrefs.SetInt("ArrowPrizeİnt", ArrowPrizeint);
@@ -272,8 +269,6 @@ public class GamePlay : MonoBehaviour
             PlayerPrefs.SetString("İncomeLevel", IncomeLevel.text);
             PlayerPrefs.SetString("İncomePrize", IncomePrize.text);
 
-
-
         }
     }
 
@@ -291,7 +286,6 @@ public class GamePlay : MonoBehaviour
         IncomePrize.text = PlayerPrefs.GetString("İncomePrize");
         IncomeLevel.text = PlayerPrefs.GetString("İncomeLevel");
         
-
     }
 
     public void resetButton()

@@ -32,8 +32,10 @@ public class GamePlay : MonoBehaviour
 
   
     [SerializeField] float arrowRadius = 0.3f;
-    [SerializeField] float startingCircleRadius = 0.3f;
+    [SerializeField] float startingCircleRadius= 0.3f;
+    [SerializeField] float globalRadiusCurrent = 0;
     public  int circleCount= 1;
+
 
 
     // Start is called before the first frame update
@@ -147,7 +149,7 @@ public class GamePlay : MonoBehaviour
     public void CreateArrows(int Arrows) 
     {
         int remaningArrow = Arrows;
-        float currentRadius = startingCircleRadius;
+        float currentRadius = globalRadiusCurrent == 0 ? startingCircleRadius : globalRadiusCurrent;
         
 
         while (remaningArrow > 0) 
@@ -157,9 +159,9 @@ public class GamePlay : MonoBehaviour
             float spacing = 2 * Mathf.PI / amount;
             if (triggerControl)
             {
-
-                    for (int i = 0; i < amount; i++)
-
+                int realAmount = remaningArrow < amount ? remaningArrow : amount ;
+                
+                    for (int i = 0; i < realAmount; i++)
                     {
                         float theta = i * spacing;
 
@@ -182,7 +184,7 @@ public class GamePlay : MonoBehaviour
 
                 remaningArrow -= amount;
                 circleCount++;
-                currentRadius += startingCircleRadius;
+                currentRadius = remaningArrow < amount ? currentRadius : currentRadius+startingCircleRadius;
 
                 Debug.Log(currentRadius);
 
@@ -190,6 +192,8 @@ public class GamePlay : MonoBehaviour
 
             
         }
+
+        globalRadiusCurrent = currentRadius;  
 
     
     } //Creating Arrows

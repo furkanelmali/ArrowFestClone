@@ -29,8 +29,13 @@ public class GamePlay : MonoBehaviour
     public bool triggerControl, destroyControl;
 
     public int CloneTag = 1;
-       
+
   
+    [SerializeField] float arrowRadius = 0.3f;
+    [SerializeField] float startingCircleRadius = 0.3f;
+    public  int circleCount= 1;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -141,42 +146,51 @@ public class GamePlay : MonoBehaviour
 
     public void CreateArrows(int Arrows) 
     {
-        Debug.Log(Arrows);
-        if (triggerControl)
+        int remaningArrow = Arrows;
+        float currentRadius = startingCircleRadius;
+        
+
+        while (remaningArrow > 0) 
         {
-            for (int i = 0; i < Arrows; i++)
-
+            float circumference = CircumferenceOfCircle(currentRadius);
+            int amount = CalculateArrowCountForCircumference(circumference);
+            float spacing = 2 * Mathf.PI / amount;
+            if (triggerControl)
             {
-                
-                float radius = 1;
 
-                //float clone = i * 0.1f;
+                    for (int i = 0; i < amount; i++)
 
-                float yaricap = 0.5f;
+                    {
+                        float theta = i * spacing;
 
-                float theta = i * 2 * Mathf.PI / Arrows;
+                        float x = Mathf.Sin(theta) * currentRadius;
+                        float y = Mathf.Cos(theta) * currentRadius;
 
-                float x = Mathf.Sin(theta)*radius;
-                float y = Mathf.Cos(theta)*radius;
 
-                
-                var spawnDir = new Vector3(x, y, 0);
-                var spawnPos = Arrow.transform.position + spawnDir * yaricap;
+                        var spawnDir = new Vector3(x, y, 0);
+                        Vector3 spawnPosition = Arrow.transform.position + new Vector3(x, y);
 
 
 
-                GameObject ArrowClone = Instantiate(Arrow, new Vector3(spawnPos.x, spawnPos.y,Arrow.transform.position.z), Arrow.transform.rotation);
-                ArrowClone.transform.parent = ArrowBox.transform;
-                ArrowClone.name = "ArrowClone" + i;
-                ArrowClone.gameObject.tag = "ArrowClone" ;
-                
+                        GameObject ArrowClone = Instantiate(Arrow, spawnPosition, Arrow.transform.rotation);
+                        ArrowClone.transform.parent = ArrowBox.transform;
+                        ArrowClone.name = "ArrowClone" + i;
+                        ArrowClone.gameObject.tag = "ArrowClone";
 
+                       
+                    }
 
-                
+                remaningArrow -= amount;
+                circleCount++;
+                currentRadius += startingCircleRadius;
+
+                Debug.Log(currentRadius);
+
             }
 
+            
         }
-       
+
     
     } //Creating Arrows
 
@@ -283,6 +297,14 @@ public class GamePlay : MonoBehaviour
     }
 
 
-
+    float CircumferenceOfCircle(float radius)
+    {
+        return 2 * Mathf.PI * radius;
+    }
+    int CalculateArrowCountForCircumference(float circleCircumference)
+    {
+        int amount = (int)(circleCircumference / arrowRadius);
+        return amount;
+    }
 
 }

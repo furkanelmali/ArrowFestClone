@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour
                     touchcontrol = true;
 
                 }
-
+                
             }
             
             

@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7893348678958422022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7893348678958422016}
+  - component: {fileID: 7893348678958422023}
+  - component: {fileID: 7893348678958422017}
+  m_Layer: 0
+  m_Name: GamePlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7893348678958422016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893348678958422022}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.62193924, y: -10.712392, z: 25.840647}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7893348678958422023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893348678958422022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17364ecdb79b2b14eaebf2c7323f35d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Arrow: {fileID: 0}
+  ArrowBox: {fileID: 0}
+  MainMenu: {fileID: 0}
+  CloneBox: {fileID: 0}
+  Tags: 
+  ArrowLevel: {fileID: 0}
+  IncomeLevel: {fileID: 0}
+  ArrowPrize: {fileID: 0}
+  IncomePrize: {fileID: 0}
+  ArrowPrizeint: 0
+  IncomePrizeint: 0
+  ArrowLevelint: 0
+  IncomeLevelint: 0
+  currentArrow: 1
+  "cloneBox\u0130nt": 0
+  CloneNumber: 2
+  DestroyNumber: 0
+  startingArrowNum: 0
+  Gold: 0
+  GoldText: {fileID: 0}
+  triggerControl: 0
+  destroyControl: 0
+  arrowCleanercheck: 0
+  CloneTag: 1
+  arrowRadius: 0.25
+  startingCircleRadius: 0.25
+  globalRadiusCurrent: 0
+  currentCircleAmount: 0
+  FullyAmount: 0
+  circleCount: 1
+  xRangeforArrow: 2.5
+--- !u!114 &7893348678958422017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893348678958422022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee8ff6b22dc07d48bdbb9fc2d26902f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelfinisher: {fileID: 0}
+  spawnPos: {fileID: 0}
+  Levels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  LevelUpScene: {fileID: 0}
+  MainMenu: {fileID: 0}
+  Character: {fileID: 0}
+  FailedScene: {fileID: 0}
+  EndLevel: {fileID: 3520320017541380518, guid: 8002542c1720e9f4baba9c40f8b1ca87,
+    type: 3}
+  movement: {fileID: 0}
+  gameplay: {fileID: 7893348678958422023}
+  levelint: 0
+  levet: {fileID: 0}
+  levelControl: 0
+  spawnofEndLevel: {fileID: 0}

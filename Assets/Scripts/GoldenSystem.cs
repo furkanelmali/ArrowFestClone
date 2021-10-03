@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GoldenSystem : MonoBehaviour
 {
     
-    public GameObject Gamelay;
+    
     
 
     public GamePlay GamePlay;
@@ -17,12 +17,12 @@ public class GoldenSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Gamelay.GetComponent<GamePlay>();
+        GamePlay.GetComponent<GamePlay>();
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Arrow" || other.gameObject.tag == "ArrowClone")
+        if (other.gameObject.tag == "people")
         {
             
             GamePlay.Gold = GamePlay.Gold + GamePlay.IncomeLevelint;           
@@ -33,13 +33,17 @@ public class GoldenSystem : MonoBehaviour
             Debug.Log(GamePlay.ArrowBox.transform.childCount);
             PlayerPrefs.SetInt("GoldSave", GamePlay.Gold);
             PlayerPrefs.SetString("GoldText", GamePlay.GoldText.text);
-            if(other.gameObject.tag == "ArrowClone")
+            Destroy(other.gameObject);
+            if (this.gameObject.tag == "ArrowClone")
             {
-                Destroy(other.gameObject);
+                Destroy(this.gameObject);
             }
-
             
-            Destroy(this.gameObject);
+           
+            
+            
+
+
             //Hitting Man and Getting Golds
         }
     }

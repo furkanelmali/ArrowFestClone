@@ -11,6 +11,8 @@ TagManager:
   - Extract
   - Divide
   - ArrowClone
+  - FinalScene
+  - Enemy
   layers:
   - Default
   - TransparentFX

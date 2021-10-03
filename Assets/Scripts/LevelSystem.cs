@@ -15,10 +15,10 @@ public class LevelSystem : MonoBehaviour
     public Movement movement;
     public GamePlay gameplay;
 
+    
+
     public bool levelControl;
 
-    
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +32,6 @@ public class LevelSystem : MonoBehaviour
        
     }
 
-    
-
     public void ArrowNumControl(int num)
     {
         
@@ -41,29 +39,23 @@ public class LevelSystem : MonoBehaviour
         {
             
             case 1:
-                if (gameplay.currentArrow <= 0)
+                if (gameplay.currentArrow <= 1)
                 {
                     LevelUpScene.SetActive(true);
-
-                    movement.touchlock = true;
                     movement.touchcontrol = false;
-
                     levelControl = true;
                 }
-               
 
                 break;
 
             case 0:
 
-                if (gameplay.currentArrow <= 0)
+                if (gameplay.currentArrow <= 1)
                 {
                     
                     FailedScene.SetActive(true);
                     movement.touchlock = true;
                     movement.touchcontrol = false;
-
-                    
 
                 }
                
@@ -71,9 +63,7 @@ public class LevelSystem : MonoBehaviour
 
         }
 
-        
     }
-
 
     public void ReturnHomepage()
     {
@@ -84,6 +74,7 @@ public class LevelSystem : MonoBehaviour
             Character.transform.position = new Vector3(spawnPos.transform.position.x, spawnPos.transform.position.y, spawnPos.transform.position.z);
             movement.touchlock = false;
             levelControl = false;
+            gameplay.EndLevelCleaner();
 
             if (gameplay.currentArrow < gameplay.startingArrowNum)
             {
@@ -102,6 +93,7 @@ public class LevelSystem : MonoBehaviour
             movement.touchlock = false;
             FailedScene.SetActive(false);
             MainMenu.SetActive(true);
+            gameplay.EndLevelCleaner();
 
             if (gameplay.currentArrow < gameplay.startingArrowNum)
             {
@@ -114,14 +106,10 @@ public class LevelSystem : MonoBehaviour
             }
 
         }
-        
-
     }
 
     public void levelup()
-    {
-        
-        
+    { 
         if (true)
         {
             Levels[3].SetActive(false);

@@ -13,7 +13,7 @@ public class GamePlay : MonoBehaviour
     public string Tags;
 
     public Text ArrowLevel, IncomeLevel, ArrowPrize, IncomePrize;
-   
+
 
     public int ArrowPrizeint = 250;
     public int IncomePrizeint = 250;
@@ -21,29 +21,30 @@ public class GamePlay : MonoBehaviour
     public int IncomeLevelint;
 
     public int currentArrow, cloneBoxİnt, CloneNumber, DestroyNumber, startingArrowNum;
-    
+
 
     public int Gold;
     public Text GoldText;
 
-    public bool triggerControl, destroyControl;
+    public bool triggerControl, destroyControl, arrowCleanercheck;
 
     public int CloneTag = 1;
 
-  
+
     [SerializeField] float arrowRadius = 0.3f;
-    [SerializeField] float startingCircleRadius= 0.3f;
+    [SerializeField] float startingCircleRadius = 0.3f;
     [SerializeField] float globalRadiusCurrent = 0;
 
     [SerializeField] int currentCircleAmount = 0;
     [SerializeField] int FullyAmount = 0;
-    public  int circleCount= 1;
+    public int circleCount = 1;
+    public float xRangeforArrow = 2.5f;
 
 
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         SaveSystem();
 
         currentArrow = startingArrowNum;
@@ -65,7 +66,7 @@ public class GamePlay : MonoBehaviour
     {
 
         int.TryParse(CloneBox.text, out cloneBoxİnt);
-        
+
         if (triggerControl)
         {
             Calculations();
@@ -80,11 +81,11 @@ public class GamePlay : MonoBehaviour
                 destroyControl = true;
                 DestroyingArrows(DestroyNumber);
                 destroyControl = false;
-                
+
             }
             triggerControl = false;
         }
- 
+
     }
 
     public void Calculations()
@@ -94,12 +95,12 @@ public class GamePlay : MonoBehaviour
             case "Sum":
                 CloneNumber = cloneBoxİnt;
                 currentArrow = CloneNumber + currentArrow;
- 
+
                 break;
 
             case "Multiplie":
                 CloneNumber = cloneBoxİnt * currentArrow - currentArrow;
-                Debug.Log("cloneboxİnt"+cloneBoxİnt);
+                Debug.Log("cloneboxİnt" + cloneBoxİnt);
                 Debug.Log("currentArrow" + currentArrow);
                 currentArrow = CloneNumber + currentArrow;
                 break;
@@ -107,17 +108,17 @@ public class GamePlay : MonoBehaviour
             case "Extract":
                 DestroyNumber = cloneBoxİnt;
                 currentArrow = currentArrow - cloneBoxİnt;
-                
+
                 break;
 
             case "Divide":
-                DestroyNumber = currentArrow- (currentArrow / cloneBoxİnt) ;
+                DestroyNumber = currentArrow - (currentArrow / cloneBoxİnt);
                 currentArrow = currentArrow - DestroyNumber;
                 break;
 
         }
 
-        if(currentArrow < 0)
+        if (currentArrow < 0)
         {
             currentArrow = 0;
         }
@@ -125,41 +126,41 @@ public class GamePlay : MonoBehaviour
     } //Calculations For Cloning-Destroying
 
 
-    public void CreateArrows(int Arrows) 
+    public void CreateArrows(int Arrows)
     {
         int remaningArrow = Arrows;
         float currentRadius = globalRadiusCurrent == 0 ? startingCircleRadius : globalRadiusCurrent;
-        
-        while (remaningArrow > 0) 
+
+        while (remaningArrow > 0)
         {
             float circumference = CircumferenceOfCircle(currentRadius);
             int amount = CalculateArrowCountForCircumference(circumference);
             float spacing = 2 * Mathf.PI / amount;
             if (triggerControl)
             {
-                int realAmount = remaningArrow < amount ? remaningArrow : amount ;
-                
-                    for (int i = FullyAmount; i < realAmount; i++)
-                    {
-                        float theta = i * spacing;
+                int realAmount = remaningArrow < amount ? remaningArrow : amount;
 
-                        float x = Mathf.Sin(theta) * currentRadius;
-                        float y = Mathf.Cos(theta) * currentRadius;
+                for (int i = FullyAmount; i < realAmount; i++)
+                {
+                    float theta = i * spacing;
 
-
-                        var spawnDir = new Vector3(x, y, 0);
-                        Vector3 spawnPosition = Arrow.transform.position + new Vector3(x, y);
+                    float x = Mathf.Sin(theta) * currentRadius;
+                    float y = Mathf.Cos(theta) * currentRadius;
 
 
+                    var spawnDir = new Vector3(x, y, 0);
+                    Vector3 spawnPosition = Arrow.transform.position + new Vector3(x, y);
 
-                        GameObject ArrowClone = Instantiate(Arrow, spawnPosition, Arrow.transform.rotation);
-                        ArrowClone.transform.parent = ArrowBox.transform;
-                        ArrowClone.name = "ArrowClone" + i;
-                        ArrowClone.gameObject.tag = "ArrowClone";
 
-                       
-                    }
-                
+
+                    GameObject ArrowClone = Instantiate(Arrow, spawnPosition, Arrow.transform.rotation);
+                    ArrowClone.transform.parent = ArrowBox.transform;
+                    ArrowClone.name = "ArrowClone" + i;
+                    ArrowClone.gameObject.tag = "ArrowClone";
+
+
+                }
+
                 remaningArrow -= amount;
                 circleCount++;
                 currentCircleAmount = amount;
@@ -180,17 +181,17 @@ public class GamePlay : MonoBehaviour
 
         }
 
-        globalRadiusCurrent = currentRadius;  
+        globalRadiusCurrent = currentRadius;
     } //Creating Arrows
 
     public void DestroyingArrows(int Destroynum)
     {
-        if (destroyControl) 
+        if (destroyControl)
         {
             int sides = 1;
 
-            for (int i = ArrowBox.transform.childCount - 1; i >= 1; i--) 
-            { 
+            for (int i = ArrowBox.transform.childCount - 1; i >= 1; i--)
+            {
                 Destroy(ArrowBox.transform.GetChild(i).gameObject);
                 if (sides == Destroynum)
                 {
@@ -205,7 +206,7 @@ public class GamePlay : MonoBehaviour
             {
                 float circumference = CircumferenceOfCircle(currentRdn);
                 int amount = CalculateArrowCountForCircumference(circumference);
-                
+
                 arrowChild -= amount;
                 if (!(arrowChild < amount))
                 {
@@ -217,12 +218,12 @@ public class GamePlay : MonoBehaviour
                     FullyAmount = arrowChild - 1;
                 }
             }
-            
+
 
             globalRadiusCurrent = currentRdn;
-            
+
         }
-        
+
     }//Destroying Arrows
 
     public void ArrowLevelİncreasing()
@@ -237,7 +238,7 @@ public class GamePlay : MonoBehaviour
             ArrowLevel.text = "Level " + ArrowLevelint.ToString();
             ArrowPrizeint = ArrowPrizeint * ArrowLevelint;
             ArrowPrize.text = ArrowPrizeint.ToString();
-              
+
             CloneNumber = 1;
             triggerControl = true;
             CreateArrows(CloneNumber);
@@ -246,7 +247,7 @@ public class GamePlay : MonoBehaviour
             PlayerPrefs.SetInt("GoldSave", Gold);
             PlayerPrefs.SetString("GoldText", GoldText.text);
             PlayerPrefs.SetInt("StartingArrowNum", startingArrowNum);
-            
+
             PlayerPrefs.SetInt("Arrowlevelİnt", ArrowLevelint);
             PlayerPrefs.SetString("Arrowlevel", ArrowLevel.text);
             PlayerPrefs.SetInt("ArrowPrizeİnt", ArrowPrizeint);
@@ -258,7 +259,7 @@ public class GamePlay : MonoBehaviour
     {
         if (Gold >= IncomePrizeint)
         {
-           
+
             IncomeLevelint++;
             IncomeLevel.text = "Level " + IncomeLevelint.ToString();
             IncomePrizeint = IncomePrizeint * IncomeLevelint;
@@ -285,7 +286,7 @@ public class GamePlay : MonoBehaviour
         IncomePrizeint = PlayerPrefs.GetInt("İncomePrizeint");
         IncomePrize.text = PlayerPrefs.GetString("İncomePrize");
         IncomeLevel.text = PlayerPrefs.GetString("İncomeLevel");
-        
+
     }
 
     public void resetButton()
@@ -305,4 +306,22 @@ public class GamePlay : MonoBehaviour
         return amount;
     }
 
+
+    public void ArrowCleaner()
+    {
+        if (arrowCleanercheck) 
+        {
+            currentArrow--;
+            arrowCleanercheck = false;
+        }
+       
+    }
+
+    public void EndLevelCleaner()
+    {
+         globalRadiusCurrent = 0;
+         currentCircleAmount = 0;
+         FullyAmount = 0;
+         circleCount = 1;
+    }
 }

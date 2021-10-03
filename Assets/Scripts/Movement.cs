@@ -22,9 +22,6 @@ public class Movement : MonoBehaviour
         gameObject.GetComponent<LevelSystem>(); 
     }
 
-    
-
-
     // Update is called once per frame
     void Update()
     {
@@ -48,43 +45,30 @@ public class Movement : MonoBehaviour
                 }
                 
             }
-            
-            
 
         }
-
-
-        
-
-       
-
-        
-
-
 
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Finish")
+        if (other.gameObject.tag == "FinalScene")
         {
-
-            levelSystem.ArrowNumControl(1);
-
+            touchlock = true;
+            
         }
-        
 
+        if(other.gameObject.tag == "Finish")
+        {
+            levelSystem.ArrowNumControl(1);
+        }
 
         
     }
-
     private void OnTriggerExit(Collider other)
     {
-        
         if (GamePlay.currentArrow <= 0)
         {
-            
-            
             levelSystem.ArrowNumControl(0);
         }
     }

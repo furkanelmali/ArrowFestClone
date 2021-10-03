@@ -30,7 +30,7 @@ public class CloneBos : MonoBehaviour
             
             GamePlay.CloneBox = Number;
             GamePlay.Tags = this.gameObject.tag;
-
+            
             GamePlay.triggerControl = true;
             
 
